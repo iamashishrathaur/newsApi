@@ -8,7 +8,11 @@ const News = ({ category }) => {
 
   const fetchData = async () => {
     try {
-      let url = `https://newsapi.org/v2/top-headlines?country=in&category=${category}&apiKey=${import.meta.env.VITE_API_KEY}`;
+     // let url = `https://newsapi.org/v2/top-headlines?country=in&category=${category}&apiKey=${import.meta.env.VITE_API_KEY}`;
+      // let url= `https://saurav.tech/NewsAPI/everything/category/${category}/in.json`
+      // let url =`http://eventregistry.org/api/v1/event/getEvents`
+      let url = `https://api.currentsapi.services/v1/latest-news?apiKey=${import.meta.env.VITE_API_KEY}&category=${category}&country=in&`;
+      
       const response = await fetch(url);
 
       if (!response.ok) {
@@ -16,7 +20,7 @@ const News = ({ category }) => {
       }
 
       const data = await response.json();
-      setArticles(data.articles);
+      setArticles(data.news);
     } catch (error) {
       setError(error.message);
     } finally {
@@ -30,8 +34,9 @@ const News = ({ category }) => {
   }, [category]);
 
   return (
-    <div>
-      <h2 className="text-center">Latest <span className="badge rounded-pill bg-danger">News</span></h2>
+    <div >
+      <center>
+      <h2 className="text-center mt-5">Latest <span className="badge rounded-pill bg-danger">News</span></h2>
 
       {loading ? (
         <p className="text-center">Loading...</p>
@@ -41,9 +46,10 @@ const News = ({ category }) => {
         <p className="text-center">No articles found for the selected category.</p>
       ) : (
         articles.map((news, index) => (
-          <Item key={index} title={news.title} description={news.description} src={news.urlToImage} url={news.url} />
+          <Item key={index} title={news.title} description={news.description} src={news.image} url={news.url} />
         ))
       )}
+      </center>
     </div>
   );
 };
